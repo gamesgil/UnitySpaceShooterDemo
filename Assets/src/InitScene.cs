@@ -1,12 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class InitScene : MonoBehaviour {
     private ParallaxManager parallaxBg;
+    private GameManager gm;
 
     // Use this for initialization
     void Start()
     {
+        gm = new GameManager();
+
         parallaxBg = new ParallaxManager(GameObject.Find("bg"));
 
         ParallaxLayer nearLayer = new ParallaxLayer(parallaxBg.GetContainer());
@@ -45,6 +49,8 @@ public class InitScene : MonoBehaviour {
 
         parallaxBg.Add(nearLayer);
         parallaxBg.Add(farLayer);
+
+        GameObject.Find("enemy controller").GetComponent<EnemyController>().SetLayout(gm.GetLayout());
     }
 	
 	// Update is called once per frame

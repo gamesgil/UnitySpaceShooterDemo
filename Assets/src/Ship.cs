@@ -5,12 +5,11 @@ public class Ship : MonoBehaviour {
     private float acceleration = -0.5f;
     private float xMove = 0;
     private int direction = 0;
-    private List<Shot> shots = new List<Shot>();
+    private List<GameObject> shots = new List<GameObject>();
     private float lastShotTime = -1;
 
 	// Use this for initialization
 	void Start () {
-        
     }
 
     void FixedUpdate()
@@ -47,11 +46,21 @@ public class Ship : MonoBehaviour {
         {
             lastShotTime = Time.time;
 
-            Shot shot = Instantiate(Resources.Load("prefabs/shot"), new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z), new Quaternion()) as Shot;
+            GameObject shot = Instantiate(Resources.Load("prefabs/shot"), new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z), new Quaternion()) as GameObject;
 
+            shot.tag = "Player";
             shots.Add(shot);
         }
         
         
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        //if (collider.tag == "Player")
+        {
+            GameObject.Destroy(gameObject);
+            GameObject.Destroy(collider.gameObject);
+        }
     }
 }
